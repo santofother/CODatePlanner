@@ -40,6 +40,12 @@ export default async function renderDateDetail(view, id) {
         el('div.mono', { style: 'font-size:.7rem;letter-spacing:1.5px;color:var(--cta)' }, 'WHY IT MATCHES YOU'),
         el('div', { style: 'margin-top:6px' }, '✓ ' + why.join(' · ')),
       ]) : null,
+      d.entry_instructions ? el('div.card.card-pad', { style: 'margin-top:14px;border:none;border-left:3px solid var(--cta);background:rgba(139,69,19,0.07)' }, [
+        el('div.mono', { style: 'font-size:.7rem;letter-spacing:1.5px;color:var(--cta)' }, '🤫 HOW TO GET IN'),
+        el('div', { style: 'margin-top:6px' }, d.entry_instructions),
+        d.price_detail ? el('div.muted', { style: 'margin-top:8px;font-size:.85rem' }, '💵 ' + d.price_detail) : null,
+        el('div.muted', { style: 'margin-top:6px;font-size:.78rem' }, 'Entrances & hours change — check the official site and reserve ahead.'),
+      ]) : null,
       el('div.row.wrap', { style: 'gap:6px;margin-top:18px' }, (d.tags || []).map(t => el('span.chip', {}, '#' + t))),
       d.website_url ? el('div', { style: 'margin-top:18px' }, el('a.btn.btn-ghost', { href: d.website_url, target: '_blank', rel: 'noopener' }, '🔗 Official site')) : null,
     ]);
@@ -52,6 +58,7 @@ export default async function renderDateDetail(view, id) {
     // sidebar facts + actions
     const facts = [
       ['Cost', costLabel(d.cost_tier)],
+      ...(d.price_detail ? [['Drinks', d.price_detail]] : []),
       ['Difficulty', titleCase(d.difficulty)],
       ['Duration', d.duration_hours + ' hrs'],
       ['Setting', titleCase(d.indoor_outdoor)],

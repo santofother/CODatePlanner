@@ -1,7 +1,7 @@
 // js/app.js — hash router + app shell. Entry point for Peak Dates.
 
 import { CONFIG } from './config.js';
-import { el } from './ui.js';
+import { el, toast } from './ui.js';
 import { store } from './store.js';
 import { loadSession, session } from './state.js';
 
@@ -31,6 +31,14 @@ function applyTheme() {
   document.documentElement.setAttribute('data-theme', saved);
   return saved;
 }
+// Reload data from the store and re-render the current view.
+async function refreshNow(e) {
+  const btn = e?.currentTarget;
+  if (btn) btn.classList.add('spinning');
+  await route();
+  toast('Refreshed 🗺️', 'success', 1500);
+}
+
 function toggleTheme() {
   const next = (localStorage.getItem('peakdates.theme') || 'light') === 'light' ? 'dark' : 'light';
   localStorage.setItem('peakdates.theme', next);
@@ -55,6 +63,7 @@ function renderChrome() {
     navItems.map(([href, label]) => el('a', { href, class: href === '#/' + hashRoot ? 'active' : '' }, label)));
 
   const actions = el('div.nav-actions', {}, [
+    logged ? el('button.icon-btn', { title: 'Refresh', 'aria-label': 'Refresh', onClick: refreshNow }, '🔄') : null,
     el('button.icon-btn', { title: 'Toggle theme', onClick: toggleTheme }, theme === 'light' ? '🌙' : '☀️'),
     logged
       ? el('button.btn.btn-ghost.btn-sm', { onClick: async () => { await store.signOut(); location.hash = '#/'; await route(); } }, 'Sign out')

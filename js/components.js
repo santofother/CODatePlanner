@@ -32,6 +32,7 @@ export function dateChips(d) {
     el('span.chip', {}, `${d.duration_hours}h`),
   ];
   if (d.transit) chips.push(el('span.chip.transit', {}, '🚈 Light rail'));
+  if (d.entry_instructions) chips.push(el('span.chip.cost', {}, '🤫 Secret entrance'));
   if (d.distance_miles != null) chips.push(el('span.chip', {}, `${d.distance_miles} mi`));
   return chips;
 }

@@ -30,6 +30,7 @@
   font-size: 1.1rem; transition: all 0.16s var(--ease);
 }
 .icon-btn:hover { background: var(--summit-faint); transform: translateY(-1px); }
+.icon-btn.spinning { animation: spin 0.6s linear; }
 
 /* ── Cards ── */
 .card {
