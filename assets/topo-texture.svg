@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <!-- Reusable topographic contour texture. Stroke color inherits via CSS `currentColor`
+       or override `stroke` directly. Used as a subtle background element. -->
+  <g fill="none" stroke="#2D4A3E" stroke-opacity="0.14" stroke-width="1.4">
+    <path d="M-50,720 C200,640 360,760 560,690 C780,615 980,740 1180,660 C1320,610 1440,680 1500,640" />
+    <path d="M-50,600 C220,520 380,640 600,560 C820,485 1020,610 1240,530 C1360,490 1460,560 1500,520" />
+    <path d="M-50,480 C240,400 420,520 640,440 C860,365 1060,490 1280,410 C1380,375 1470,440 1500,400" />
+    <path d="M-50,360 C260,290 460,400 700,330 C920,265 1120,380 1320,300 C1400,270 1480,330 1500,290" />
+    <path d="M-50,240 C300,180 520,290 760,230 C980,175 1180,280 1380,210 C1430,195 1480,230 1500,200" />
+    <path d="M-50,140 C320,95 560,190 820,140 C1040,98 1240,180 1440,120 C1460,114 1480,130 1500,116" />
+  </g>
+</svg>

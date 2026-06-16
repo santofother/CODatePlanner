@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peak Dates 🏔️ — Colorado Couples Date Planner</title>
+  <meta name="description" content="Peak Dates learns what you two love and surfaces the perfect Colorado date ideas every week — from Red Rocks concerts to alpine hikes to cozy brewery nights." />
+  <meta name="theme-color" content="#2D4A3E" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Peak Dates — Every date, a new summit" />
+  <meta property="og:description" content="A Colorado-themed couples date planner that learns your preferences." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/pages.css" />
+</head>
+<body>
+  <!-- Animated topographic backdrop -->
+  <div class="topo-bg"></div>
+  <svg class="topo-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M-50,720 C200,640 360,760 560,690 C780,615 980,740 1180,660 C1320,610 1440,680 1500,640" />
+    <path d="M-50,600 C220,520 380,640 600,560 C820,485 1020,610 1240,530 C1360,490 1460,560 1500,520" />
+    <path d="M-50,480 C240,400 420,520 640,440 C860,365 1060,490 1280,410 C1380,375 1470,440 1500,400" />
+    <path d="M-50,360 C260,290 460,400 700,330 C920,265 1120,380 1320,300 C1400,270 1480,330 1500,290" />
+    <path d="M-50,240 C300,180 520,290 760,230 C980,175 1180,280 1380,210 C1430,195 1480,230 1500,200" />
+  </svg>
+
+  <div class="app-shell">
+    <div id="appbar-slot"></div>
+    <main id="view" class="view"></main>
+    <div id="foot-slot"></div>
+  </div>
+
+  <noscript>
+    <div style="padding:40px;text-align:center;font-family:sans-serif">
+      Peak Dates needs JavaScript enabled. Even the trails need a little power.
+    </div>
+  </noscript>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

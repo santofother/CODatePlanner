@@ -1,0 +1,13 @@
+{
+  "name": "peak-dates",
+  "version": "1.0.0",
+  "description": "Peak Dates — a Colorado-themed couples date planner that learns your preferences and surfaces the perfect weekly date ideas.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve .",
+    "start": "npx --yes serve ."
+  },
+  "keywords": ["colorado", "dates", "couples", "spa", "supabase"],
+  "license": "MIT"
+}

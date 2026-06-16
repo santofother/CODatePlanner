@@ -1,0 +1,182 @@
+/* ===================================================================
+   Peak Dates — main.css
+   Design tokens + global styles. Colorado wilderness meets cozy cabin.
+   =================================================================== */
+
+:root {
+  /* ── Brand palette ── */
+  --color-summit:   #2D4A3E;  /* Deep forest green — primary brand */
+  --color-trail:    #8B4513;  /* Burnt sienna — accent/CTA */
+  --color-alpine:   #4A7FA5;  /* Slate blue — links, highlights */
+  --color-snowpack: #F5F0E8;  /* Warm cream — backgrounds */
+  --color-granite:  #6B7280;  /* Cool gray — secondary text */
+  --color-aspen:    #D4A843;  /* Golden aspen — stars, badges */
+  --color-dusk:     #1A2B3C;  /* Deep navy — dark base, text */
+
+  /* Derived tints */
+  --summit-soft:   #3c6253;
+  --summit-faint:  rgba(45, 74, 62, 0.08);
+  --trail-soft:    #a35a1f;
+  --aspen-soft:    #e3c069;
+  --line-soft:     rgba(45, 74, 62, 0.14);
+
+  /* ── Semantic ── */
+  --bg:            var(--color-snowpack);
+  --bg-card:       #ffffff;
+  --bg-elevated:   #fffdf9;
+  --text:          var(--color-dusk);
+  --text-muted:    var(--color-granite);
+  --border:        rgba(26, 43, 60, 0.12);
+  --brand:         var(--color-summit);
+  --cta:           var(--color-trail);
+  --link:          var(--color-alpine);
+
+  /* ── Type ── */
+  --font-display: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', 'Inter', system-ui, sans-serif;
+  --font-mono:    'Courier Prime', ui-monospace, 'Courier New', monospace;
+
+  /* ── Shape & motion ── */
+  --radius:    14px;
+  --radius-sm: 9px;
+  --radius-lg: 22px;
+  --shadow:    0 6px 24px rgba(26, 43, 60, 0.10);
+  --shadow-lg: 0 18px 48px rgba(26, 43, 60, 0.18);
+  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+
+  --header-h: 64px;
+  --maxw: 1120px;
+}
+
+[data-theme='dark'] {
+  --bg:          #14222f;
+  --bg-card:     #1c3041;
+  --bg-elevated: #223a4d;
+  --text:        #eef3f1;
+  --text-muted:  #9fb0bd;
+  --border:      rgba(255, 255, 255, 0.12);
+  --brand:       #6ea08c;
+  --link:        #7fb4d8;
+  --summit-faint: rgba(110, 160, 140, 0.12);
+  --line-soft:   rgba(255, 255, 255, 0.07);
+  --shadow:      0 6px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg:   0 18px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.1; margin: 0 0 0.4em; letter-spacing: 0.3px; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.4rem); }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); }
+h3 { font-size: 1.3rem; }
+
+.mono { font-family: var(--font-mono); letter-spacing: 0.5px; }
+.muted { color: var(--text-muted); }
+.center { text-align: center; }
+
+/* ── Topographic texture background ── */
+.topo-bg {
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none; opacity: 0.55;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--line-soft) 0, transparent 1px),
+    radial-gradient(circle at 80% 70%, var(--line-soft) 0, transparent 1px);
+  background-size: 28px 28px;
+}
+.topo-svg {
+  position: fixed; inset: 0; z-index: -1;
+  width: 100%; height: 100%;
+  pointer-events: none; opacity: 0.5;
+}
+.topo-svg path {
+  fill: none; stroke: var(--line-soft); stroke-width: 1.4;
+  stroke-dasharray: 2400; stroke-dashoffset: 2400;
+  animation: drawTopo 2.4s var(--ease) forwards;
+}
+.topo-svg path:nth-child(2) { animation-delay: 0.15s; }
+.topo-svg path:nth-child(3) { animation-delay: 0.3s; }
+.topo-svg path:nth-child(4) { animation-delay: 0.45s; }
+.topo-svg path:nth-child(5) { animation-delay: 0.6s; }
+@keyframes drawTopo { to { stroke-dashoffset: 0; } }
+
+/* ── App shell layout ── */
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+.view { flex: 1; padding: 28px 0 80px; animation: fadeUp 0.4s var(--ease); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ── Top nav ── */
+.appbar {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.brand-mark { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--brand); }
+.brand-mark span.peak { font-size: 1.5rem; }
+.brand-mark small { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); display: block; }
+.navlinks { display: flex; gap: 4px; align-items: center; }
+.navlinks a {
+  padding: 8px 14px; border-radius: 999px; font-size: 0.92rem; font-weight: 500;
+  color: var(--text-muted); text-decoration: none; transition: all 0.18s var(--ease);
+}
+.navlinks a:hover { color: var(--text); background: var(--summit-faint); text-decoration: none; }
+.navlinks a.active { color: var(--brand); background: var(--summit-faint); font-weight: 600; }
+.nav-actions { display: flex; gap: 8px; align-items: center; }
+
+/* hamburger for mobile */
+.nav-toggle { display: none; background: none; border: 0; font-size: 1.5rem; color: var(--text); }
+
+@media (max-width: 760px) {
+  .nav-toggle { display: block; }
+  .navlinks {
+    position: fixed; top: var(--header-h); left: 0; right: 0;
+    flex-direction: column; gap: 0; padding: 8px;
+    background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+    transform: translateY(-120%); transition: transform 0.25s var(--ease);
+    box-shadow: var(--shadow);
+  }
+  .navlinks.open { transform: none; }
+  .navlinks a { width: 100%; border-radius: var(--radius-sm); }
+}
+
+/* ── Footer ── */
+.appfoot { text-align: center; padding: 28px 20px; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+.appfoot .mono { font-size: 0.78rem; }
+
+/* ── Utility ── */
+.row { display: flex; gap: 12px; }
+.row.wrap { flex-wrap: wrap; }
+.spread { justify-content: space-between; align-items: center; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.grow { flex: 1; }
+.hidden { display: none !important; }
+.section-title { display: flex; align-items: baseline; gap: 12px; margin: 8px 0 18px; }
+.section-title .mono { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 2px; color: var(--cta); }
+.divider { height: 1px; background: var(--border); margin: 28px 0; border: 0; }
+
+/* selection */
+::selection { background: var(--aspen-soft); color: var(--color-dusk); }
+
+/* scrollbar */
+::-webkit-scrollbar { height: 10px; width: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line-soft); border-radius: 10px; }

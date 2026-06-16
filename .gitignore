@@ -1,0 +1,18 @@
+# Dependencies (none needed to run, but in case you add tooling)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Local env / secrets (Supabase keys are public-safe, but just in case)
+.env
+.env.local
