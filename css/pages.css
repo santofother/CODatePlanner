@@ -29,6 +29,8 @@
 .auth-tabs { display: flex; gap: 4px; background: var(--summit-faint); padding: 4px; border-radius: 999px; margin-bottom: 22px; }
 .auth-tabs button { flex: 1; padding: 9px; border: 0; background: transparent; border-radius: 999px; font-weight: 600; color: var(--text-muted); }
 .auth-tabs button.on { background: var(--bg-card); color: var(--brand); box-shadow: var(--shadow); }
+.remember-row { display: flex; align-items: center; gap: 8px; margin: -2px 0 16px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; }
+.remember-row input { width: 16px; height: 16px; accent-color: var(--brand); cursor: pointer; }
 
 /* ── Onboarding ── */
 .onboard-wrap { max-width: 640px; margin: 0 auto; }

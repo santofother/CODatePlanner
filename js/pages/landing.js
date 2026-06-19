@@ -3,31 +3,47 @@
 import { el, toast } from '../ui.js';
 import { store } from '../store.js';
 
+const REMEMBER_KEY = 'peakdates.rememberEmail';
+
 export default async function renderLanding(view) {
   let mode = 'signup';
 
-  const email = el('input.input', { type: 'email', placeholder: 'you@summit.co', autocomplete: 'email' });
-  const pass = el('input.input', { type: 'password', placeholder: 'A trail-worthy password', autocomplete: 'current-password' });
-  const name = el('input.input', { type: 'text', placeholder: 'Your name (e.g. Alex)' });
+  const savedEmail = localStorage.getItem(REMEMBER_KEY) || '';
+
+  // autocomplete="username" on the email field is what Chrome/Google autofill and
+  // password managers key off to associate a saved credential with this site.
+  const email = el('input.input', { type: 'email', name: 'email', placeholder: 'you@summit.co', autocomplete: 'username', value: savedEmail });
+  const pass = el('input.input', { type: 'password', name: 'password', placeholder: 'A trail-worthy password', autocomplete: 'current-password' });
+  const name = el('input.input', { type: 'text', name: 'name', placeholder: 'Your name (e.g. Alex)', autocomplete: 'name' });
   const nameField = el('div.field', {}, [el('label', {}, 'Your name'), name]);
 
-  const submitBtn = el('button.btn.btn-primary.btn-block.btn-lg', { onClick: submit }, 'Start the climb');
+  const remember = el('input', { type: 'checkbox', checked: savedEmail ? '' : null });
+  const rememberField = el('label.remember-row', {}, [remember, el('span', {}, 'Remember my email on this device')]);
+
+  // A real submit button inside a real <form> is what triggers the browser's
+  // "save password?" prompt after a successful sign-in.
+  const submitBtn = el('button.btn.btn-primary.btn-block.btn-lg', { type: 'submit' }, 'Start the climb');
 
   const tabs = el('div.auth-tabs', {}, [
-    el('button', { class: 'on', onClick: () => setMode('signup') }, 'Sign up'),
-    el('button', { onClick: () => setMode('login') }, 'Sign in'),
+    el('button', { type: 'button', class: 'on', onClick: () => setMode('signup') }, 'Sign up'),
+    el('button', { type: 'button', onClick: () => setMode('login') }, 'Sign in'),
   ]);
 
   function setMode(m) {
     mode = m;
     [...tabs.children].forEach((b, i) => b.classList.toggle('on', (m === 'signup') === (i === 0)));
     nameField.classList.toggle('hidden', m === 'login');
+    // Tell the password manager whether to offer a new password (signup) or fill an existing one (login).
+    pass.setAttribute('autocomplete', m === 'signup' ? 'new-password' : 'current-password');
     submitBtn.textContent = m === 'signup' ? 'Start the climb' : 'Welcome back';
   }
 
-  async function submit() {
+  async function submit(e) {
+    if (e) e.preventDefault();
     if (!email.value.trim() || !pass.value) { toast('Email and password, please', 'warn'); return; }
     submitBtn.disabled = true;
+    if (remember.checked) localStorage.setItem(REMEMBER_KEY, email.value.trim());
+    else localStorage.removeItem(REMEMBER_KEY);
     try {
       if (mode === 'signup') {
         const p = await store.signUp({ email: email.value.trim(), password: pass.value, displayName: name.value.trim() });
@@ -50,11 +66,16 @@ export default async function renderLanding(view) {
     location.hash = '#/dashboard';
   }
 
-  const authCard = el('div.card.card-pad.auth-card', {}, [
-    tabs, nameField,
+  const authForm = el('form.auth-form', { onSubmit: submit }, [
+    nameField,
     el('div.field', {}, [el('label', {}, 'Email'), email]),
     el('div.field', {}, [el('label', {}, 'Password'), pass]),
+    rememberField,
     submitBtn,
+  ]);
+
+  const authCard = el('div.card.card-pad.auth-card', {}, [
+    tabs, authForm,
     el('div.center', { style: 'margin-top:16px' }, [
       el('div.muted', { style: 'font-size:.82rem;margin-bottom:8px' }, 'Just want to look around?'),
       el('button.btn.btn-ghost.btn-block', { onClick: tryDemo }, '🧭 Explore the demo couple'),
@@ -77,7 +98,7 @@ export default async function renderLanding(view) {
   ]);
 
   view.appendChild(container);
-  setMode('signup');
+  setMode(savedEmail ? 'login' : 'signup');
 }
 
 function feature(emoji, title, text) {
